@@ -101,24 +101,36 @@ document.getElementById('patient-gender-group')?.addEventListener('click', (e) =
   patientGender = btn.dataset.val;
 });
 
-// Page Initialization
-document.addEventListener('DOMContentLoaded', () => {
-  const session = getStoredSession();
+"// Page Initialization
+document.addEventListener('DOMContentLoaded', async () => {
+  let session = getStoredSession();
+  const client = getSupabase();
+  if (client && client.auth) {
+    try {
+      const { data: { session: supaSession } } = await client.auth.getSession();
+      if (supaSession?.user) {
+        const formattedPhone = supaSession.user.phone || supaSession.user.user_metadata?.phone || `+91${supaSession.user.email?.replace('@phone.lifelink.app', '').replace('91', '')}`;
+        session = { user: { id: supaSession.user.id, phone: formattedPhone, is_active: true } };
+        saveSession(session);
+      } else if (!supaSession) {
+        session = null;
+        clearSession();
+      }
+    } catch (e) {}
+  }
+
   if (!session || !session.user) {
-    openAuthModal((user) => {
-      currentUser = user;
-      initPatientPage();
-    }, 'need_blood');
+    window.location.href = 'auth.html?intent=patient';
   } else {
     currentUser = session.user;
-    initPatientPage();
+    await initPatientPage();
   }
 });
 
-function initPatientPage() {
+async function initPatientPage() {
   if (!currentUser) return;
 
-  const profile = getPatientProfile(currentUser.id);
+  const profile = await getPatientProfileAsync(currentUser.id);
   if (profile) {
     // Pre-fill existing patient profile
     if (document.getElementById('patient-name')) document.getElementById('patient-name').value = profile.full_name || '';
@@ -140,14 +152,14 @@ function initPatientPage() {
   } else {
     // Show Patient Details Form (Step 1)
     if (document.getElementById('phone-contact')) {
-      document.getElementById('phone-contact').value = currentUser.phone.replace('+91', '').trim();
+      document.getElementById('phone-contact').value = (currentUser.phone || '').replace('+91', '').trim();
     }
     goToStep(1);
   }
 }
 
 // Step 1: Save Patient Details
-document.getElementById('btn-details-continue')?.addEventListener('click', () => {
+document.getElementById('btn-details-continue')?.addEventListener('click', async () => {
   const patientName = document.getElementById('patient-name').value.trim();
   const attendantName = document.getElementById('attendant-name').value.trim();
   const phone = document.getElementById('phone-contact').value.trim();
@@ -162,8 +174,8 @@ document.getElementById('btn-details-continue')?.addEventListener('click', () =>
       full_name: patientName,
       attendant_name: attendantName,
       attendant_phone: `+91${phone}`,
-      age: age || 30,
-      gender: patientGender || 'Other'
+      age: parseInt(age || 30, 10),
+      gender: patientGender || 'other'
     });
   }
 

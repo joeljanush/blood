@@ -25,12 +25,23 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 
-// Session-aware routing — logged-in users go direct; others go to auth page with intent
-function route(e, intent, dest) {
+"// Session-aware routing — logged-in users go direct; others go to auth page with intent
+async function route(e, intent, dest) {
   e.preventDefault();
   try {
+    const client = getSupabase();
+    if (client && client.auth) {
+      const { data: { session } } = await client.auth.getSession();
+      if (session && session.user) {
+        window.location.href = dest;
+        return;
+      }
+    }
     const s = getStoredSession();
-    if (s && s.user) { window.location.href = dest; return; }
+    if (s && s.user) {
+      window.location.href = dest;
+      return;
+    }
   } catch (_) {}
   window.location.href = 'auth.html?intent=' + intent;
 }

@@ -16,16 +16,14 @@ END;
 $$ LANGUAGE plpgsql;
 
 
--- ============================================================
+"-- ============================================================
 -- TABLE 1: users
--- Mirrors auth.users — stores role and profile metadata
+-- Mirrors auth.users — stores phone and account metadata
+-- users.id = auth.users.id
 -- ============================================================
 CREATE TABLE IF NOT EXISTS public.users (
-  id          UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  auth_id     UUID UNIQUE REFERENCES auth.users(id) ON DELETE CASCADE,
+  id          UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   phone       TEXT UNIQUE NOT NULL,
-  email       TEXT,
-  role        TEXT NOT NULL CHECK (role IN ('donor', 'patient', 'hospital_staff', 'admin')),
   is_active   BOOLEAN NOT NULL DEFAULT true,
   created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
@@ -35,9 +33,7 @@ CREATE TRIGGER set_users_updated_at
   BEFORE UPDATE ON public.users
   FOR EACH ROW EXECUTE FUNCTION trigger_set_updated_at();
 
-CREATE INDEX IF NOT EXISTS idx_users_auth_id ON public.users(auth_id);
-CREATE INDEX IF NOT EXISTS idx_users_role    ON public.users(role);
-CREATE INDEX IF NOT EXISTS idx_users_phone   ON public.users(phone);
+CREATE INDEX IF NOT EXISTS idx_users_phone ON public.users(phone);
 
 
 -- ============================================================

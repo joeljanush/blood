@@ -642,8 +642,22 @@
     );
   }
 
-  /* Skip auth page if already logged in */
-  try { const s = getStoredSession(); if (s?.user) redirect(); } catch (_) {}
+"  /* Skip auth page if already logged in */
+  async function checkActiveSession() {
+    try {
+      const client = getSupabase();
+      if (client && client.auth) {
+        const { data: { session } } = await client.auth.getSession();
+        if (session && session.user) {
+          redirect();
+          return;
+        }
+      }
+      const s = getStoredSession();
+      if (s?.user) redirect();
+    } catch (_) {}
+  }
+  checkActiveSession();
 
   /* ── DOM ─────────────────────────────────── */
   const fLogin  = document.getElementById('f-login');

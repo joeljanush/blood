@@ -70,24 +70,36 @@ function formatDate(date) {
 // ===========================
 let currentUser = null;
 
-document.addEventListener('DOMContentLoaded', () => {
-  const session = getStoredSession();
+"document.addEventListener('DOMContentLoaded', async () => {
+  let session = getStoredSession();
+  const client = getSupabase();
+  if (client && client.auth) {
+    try {
+      const { data: { session: supaSession } } = await client.auth.getSession();
+      if (supaSession?.user) {
+        const formattedPhone = supaSession.user.phone || supaSession.user.user_metadata?.phone || `+91${supaSession.user.email?.replace('@phone.lifelink.app', '').replace('91', '')}`;
+        session = { user: { id: supaSession.user.id, phone: formattedPhone, is_active: true } };
+        saveSession(session);
+      } else if (!supaSession) {
+        session = null;
+        clearSession();
+      }
+    } catch (e) {}
+  }
+
   if (!session || !session.user) {
-    openAuthModal((user) => {
-      currentUser = user;
-      initDonorPage();
-    }, 'donate_blood');
+    window.location.href = 'auth.html?intent=donor';
   } else {
     currentUser = session.user;
-    initDonorPage();
+    await initDonorPage();
   }
 });
 
-function initDonorPage() {
+async function initDonorPage() {
   if (!currentUser) return;
   donor.phone = currentUser.phone;
 
-  const profile = getDonorProfile(currentUser.id);
+  const profile = await getDonorProfileAsync(currentUser.id);
   if (profile && profile.blood_group) {
     donor.name = profile.full_name || 'Donor';
     donor.age = profile.age || '';

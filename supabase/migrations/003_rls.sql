@@ -17,24 +17,14 @@ ALTER TABLE public.donor_responses ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.donations       ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.notifications   ENABLE ROW LEVEL SECURITY;
 
--- ============================================================
--- HELPER: Get current user's internal users.id from auth.uid()
+"-- ============================================================
+-- HELPER: Get current user's user_id from auth.uid()
 -- ============================================================
 CREATE OR REPLACE FUNCTION public.get_my_user_id()
 RETURNS UUID
 LANGUAGE sql STABLE SECURITY DEFINER
 AS $$
-  SELECT id FROM public.users WHERE auth_id = auth.uid() LIMIT 1;
-$$;
-
--- ============================================================
--- HELPER: Get current user's role
--- ============================================================
-CREATE OR REPLACE FUNCTION public.get_my_role()
-RETURNS TEXT
-LANGUAGE sql STABLE SECURITY DEFINER
-AS $$
-  SELECT role FROM public.users WHERE auth_id = auth.uid() LIMIT 1;
+  SELECT auth.uid();
 $$;
 
 -- ============================================================
@@ -47,8 +37,7 @@ AS $$
   SELECT EXISTS (
     SELECT 1
     FROM public.hospital_staff hs
-    JOIN public.users u ON u.id = hs.user_id
-    WHERE u.auth_id = auth.uid()
+    WHERE hs.user_id = auth.uid()
       AND hs.hospital_id = p_hospital_id
       AND hs.is_verified = true
   );
@@ -59,20 +48,16 @@ $$;
 -- TABLE: users
 -- ============================================================
 
--- Admins can do everything
-CREATE POLICY "admin_all_users" ON public.users
-  FOR ALL USING (get_my_role() = 'admin');
-
 -- Users can view and update their own row
 CREATE POLICY "users_select_own" ON public.users
-  FOR SELECT USING (auth_id = auth.uid());
+  FOR SELECT USING (id = auth.uid());
 
 CREATE POLICY "users_update_own" ON public.users
-  FOR UPDATE USING (auth_id = auth.uid());
+  FOR UPDATE USING (id = auth.uid());
 
 -- New users can insert their own record (during sign-up)
 CREATE POLICY "users_insert_own" ON public.users
-  FOR INSERT WITH CHECK (auth_id = auth.uid());
+  FOR INSERT WITH CHECK (id = auth.uid());
 
 
 -- ============================================================
