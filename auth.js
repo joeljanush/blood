@@ -1,4 +1,4 @@
-"// ===== LifeLink Unified Authentication & Profile Management System =====
+// ===== LifeLink Unified Authentication & Profile Management System =====
 
 const AUTH_ERRORS = {
   WRONG_CREDENTIALS: 'Phone number or password is incorrect.',
@@ -359,4 +359,3 @@ if (document.readyState === 'loading') {
 } else {
   setupSupabaseAuthListener();
 }
-"

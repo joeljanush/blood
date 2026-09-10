@@ -70,7 +70,7 @@ function formatDate(date) {
 // ===========================
 let currentUser = null;
 
-"document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', async () => {
   let session = getStoredSession();
   const client = getSupabase();
   if (client && client.auth) {
