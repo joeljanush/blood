@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="LifeLink — Donate blood and help someone in need. Request blood or register as a donor.">
+  <title>LifeLink — Donate Blood. Save Lives.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="header-inner">
+      <a href="/" class="logo" id="logo">
+        <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 2C12 2 4 10.5 4 15a8 8 0 0 0 16 0C20 10.5 12 2 12 2Z" fill="#C0392B"/>
+        </svg>
+        <span>LifeLink</span>
+      </a>
+      <nav class="nav" id="nav">
+        <a href="#" class="nav-link">Home</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#why-donate" class="nav-link">Why Donate</a>
+
+      </nav>
+      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main>
+    <section class="hero" id="hero">
+      <div class="hero-inner">
+        <p class="hero-tagline">Donate Blood. Save Lives.</p>
+        <h1 class="hero-title">Your Blood Can Give Someone Another Chance.</h1>
+        <p class="hero-desc">Donate blood and help someone in need.</p>
+        <div class="hero-actions">
+          <a href="patient.html" class="btn btn--need" id="btn-need-blood">
+            <span class="btn-emoji">🚨</span>
+            I Need Blood
+          </a>
+          <a href="donor.html" class="btn btn--donate" id="btn-donate-blood">
+            <span class="btn-emoji">🩸</span>
+            I Want to Donate Blood
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section" id="about">
+      <div class="section-inner">
+        <h2 class="section-title">How It Works</h2>
+        <div class="steps">
+          <div class="step">
+            <span class="step-number">1</span>
+            <h3 class="step-title">Request</h3>
+            <p class="step-desc">Request the blood you need.</p>
+          </div>
+          <div class="step">
+            <span class="step-number">2</span>
+            <h3 class="step-title">Match</h3>
+            <p class="step-desc">We find nearby potential donors based on the selected hospital.</p>
+          </div>
+          <div class="step">
+            <span class="step-number">3</span>
+            <h3 class="step-title">Donate</h3>
+            <p class="step-desc">The donor visits the hospital/blood bank for the required medical screening and donation.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Donate -->
+    <section class="section section--light" id="why-donate">
+      <div class="section-inner">
+        <h2 class="section-title">Why Donate Blood?</h2>
+        <ul class="reasons">
+          <li>One donation can help save lives.</li>
+          <li>Blood is needed during emergencies, surgeries and treatments.</li>
+          <li>Your donation can help someone in your community.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section cta" id="cta">
+      <div class="section-inner">
+        <h2 class="section-title">Ready to help?</h2>
+        <div class="cta-actions">
+          <a href="patient.html" class="btn btn--need btn--sm" id="btn-cta-need">Need Blood</a>
+          <a href="donor.html" class="btn btn--donate btn--sm" id="btn-cta-donate">Donate Blood</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" id="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="/" class="logo logo--footer">
+          <svg class="logo-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 2C12 2 4 10.5 4 15a8 8 0 0 0 16 0C20 10.5 12 2 12 2Z" fill="#C0392B"/>
+          </svg>
+          <span>LifeLink</span>
+        </a>
+        <p class="footer-tagline">Donate Blood. Save Lives.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-lang">English | தமிழ்</span>
+        <span class="footer-copy">&copy; 2026 LifeLink</span>
+      </div>
+    </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabaseClient.js"></script>
+  <script src="auth.js"></script>
+
+  <script src="script.js"></script>
+</body>
+</html>

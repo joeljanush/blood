@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Login or create your LifeLink account — donate blood or request blood when someone needs help.">
+  <title>Login — LifeLink</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset ───────────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ── Tokens ──────────────────────────────────── */
+    :root {
+      --red:          #C0392B;
+      --red-dark:     #A93226;
+      --red-ring:     rgba(192, 57, 43, 0.13);
+      --red-glow:     rgba(192, 57, 43, 0.18);
+      --text:         #181818;
+      --text-2:       #555;
+      --text-3:       #949494;
+      --white:        #fff;
+      --border:       #E2E2E2;
+      --bg:           #F4F3F1;
+      --prefix-bg:    #F0F0F0;
+      --r:            10px;
+      --r-sm:         6px;
+      --r-card:       18px;
+    }
+
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 16px;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    button { font-family: inherit; }
+
+    /* ── Page wrapper ────────────────────────────── */
+    .page {
+      width: 100%;
+      max-width: 436px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* ── Back link ───────────────────────────────── */
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-3);
+      transition: color .15s;
+      align-self: flex-start;
+    }
+    .back:hover { color: var(--text); }
+    .back svg { flex-shrink: 0; }
+
+    /* ── Card ────────────────────────────────────── */
+    .card {
+      background: var(--white);
+      border-radius: var(--r-card);
+      border: 1px solid #E6E6E6;
+      box-shadow:
+        0 1px 2px rgba(0,0,0,.04),
+        0 4px 12px rgba(0,0,0,.05),
+        0 20px 40px rgba(0,0,0,.04);
+      padding: 40px 36px 36px;
+    }
+
+    /* ── Brand ───────────────────────────────────── */
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 30px;
+    }
+    .brand-name {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -.025em;
+      color: var(--text);
+    }
+
+    /* ── Form header ─────────────────────────────── */
+    .fh { margin-bottom: 22px; }
+    .fh-title {
+      font-size: 21px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -.02em;
+      line-height: 1.25;
+      margin-bottom: 4px;
+    }
+    .fh-sub {
+      font-size: 14px;
+      color: var(--text-2);
+      line-height: 1.5;
+    }
+
+    /* ── Forms ───────────────────────────────────── */
+    .form { display: flex; flex-direction: column; }
+    .form.hidden { display: none !important; }
+
+    /* ── Field ───────────────────────────────────── */
+    .field { display: flex; flex-direction: column; margin-bottom: 15px; }
+    .label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: .02em;
+      margin-bottom: 6px;
+    }
+
+    /* Base input */
+    .inp {
+      width: 100%;
+      height: 50px;
+      padding: 0 14px;
+      font-family: inherit;
+      font-size: 15px;
+      color: var(--text);
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+      transition: border-color .18s, box-shadow .18s;
+    }
+    .inp::placeholder { color: #C2C2C2; }
+    .inp:focus {
+      border-color: var(--red);
+      box-shadow: 0 0 0 3.5px var(--red-ring);
+    }
+
+    /* Phone */
+    .phone-shell {
+      display: flex;
+      align-items: stretch;
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+      transition: border-color .18s, box-shadow .18s;
+    }
+    .phone-shell:focus-within {
+      border-color: var(--red);
+      box-shadow: 0 0 0 3.5px var(--red-ring);
+    }
+    .cc {
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      background: var(--prefix-bg);
+      border-right: 1.5px solid var(--border);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-2);
+      white-space: nowrap;
+      user-select: none;
+      flex-shrink: 0;
+    }
+    .phone-shell .inp {
+      border: none;
+      border-radius: 0;
+      flex: 1;
+      min-width: 0;
+      box-shadow: none !important;
+    }
+    .phone-shell .inp:focus { border: none; box-shadow: none !important; }
+
+    /* Label row with inline link */
+    .label-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .label-row .label { margin-bottom: 0; }
+
+    /* Password shell */
+    .pw-shell {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .pw-shell .inp { padding-right: 48px; }
+    .eye-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #ABABAB;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      border-radius: var(--r-sm);
+      transition: color .15s;
+      line-height: 1;
+    }
+    .eye-btn:hover { color: var(--red); }
+    .eye-btn svg { width: 18px; height: 18px; display: block; pointer-events: none; }
+
+    /* Hint */
+    .hint {
+      font-size: 12px;
+      color: var(--text-3);
+      margin-top: 5px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .hint::before {
+      content: '';
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: #CECECE;
+      flex-shrink: 0;
+    }
+
+    /* Forgot / inline link buttons */
+    .link-sm {
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-3);
+      cursor: pointer;
+      padding: 0;
+      letter-spacing: .01em;
+      transition: color .15s;
+    }
+    .link-sm:hover { color: var(--red); }
+
+    /* ── Primary button ──────────────────────────── */
+    .btn {
+      width: 100%;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      font-family: inherit;
+      font-size: 15.5px;
+      font-weight: 600;
+      letter-spacing: .01em;
+      color: var(--white);
+      background: var(--red);
+      border: none;
+      border-radius: var(--r);
+      cursor: pointer;
+      box-shadow: 0 1px 3px var(--red-glow), 0 4px 14px rgba(192,57,43,.14);
+      transition: background .15s, box-shadow .15s, transform .1s;
+      margin-top: 6px;
+    }
+    .btn:hover {
+      background: var(--red-dark);
+      box-shadow: 0 2px 6px var(--red-glow), 0 8px 22px rgba(192,57,43,.2);
+      transform: translateY(-1px);
+    }
+    .btn:active {
+      transform: scale(.985) translateY(0);
+      box-shadow: 0 1px 3px var(--red-glow);
+    }
+    .btn.busy, .btn:disabled {
+      opacity: .62;
+      pointer-events: none;
+      transform: none !important;
+    }
+
+    /* Spinner */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spin {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,.28);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      flex-shrink: 0;
+    }
+
+    /* ── Divider ─────────────────────────────────── */
+    .or {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 20px 0;
+      font-size: 12px;
+      font-weight: 500;
+      color: #C6C6C6;
+    }
+    .or::before, .or::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    /* ── Switch row ──────────────────────────────── */
+    .switch {
+      text-align: center;
+      font-size: 13.5px;
+      color: var(--text-2);
+    }
+    .switch-btn {
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--red);
+      cursor: pointer;
+      padding: 0;
+      transition: color .15s;
+    }
+    .switch-btn:hover { color: var(--red-dark); text-decoration: underline; }
+
+    /* ── Banners ─────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(-5px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .banner {
+      border-radius: var(--r-sm);
+      padding: 11px 14px;
+      font-size: 13.5px;
+      font-weight: 500;
+      line-height: 1.45;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      animation: fadeUp .2s ease;
+    }
+    .banner.hidden { display: none !important; }
+
+    .err-banner {
+      background: #FDF1F1;
+      border: 1px solid #EFC6C6;
+      color: #A93226;
+    }
+    .err-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px; height: 16px; min-width: 16px;
+      border-radius: 50%;
+      background: #A93226;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      margin-top: 1px;
+      flex-shrink: 0;
+    }
+
+    .ok-banner {
+      background: #F0FAF4;
+      border: 1px solid #9DDCB8;
+      color: #1B7A46;
+    }
+    .ok-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+      color: #1B7A46;
+    }
+
+    /* ── Page footer ─────────────────────────────── */
+    .foot {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-3);
+    }
+
+    /* ── Mobile ──────────────────────────────────── */
+    @media (max-width: 500px) {
+      body {
+        padding: 0;
+        background: var(--white);
+        justify-content: flex-start;
+      }
+      .page { max-width: 100%; gap: 0; }
+      .back { padding: 20px 22px 12px; align-self: stretch; }
+      .card {
+        border-radius: 0;
+        box-shadow: none;
+        border: none;
+        border-bottom: 1px solid var(--border);
+        padding: 28px 22px 32px;
+      }
+      .fh-title { font-size: 19px; }
+      .foot { padding: 18px 22px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ── Back link ─────────────────────────────── -->
+  <a href="index.html" class="back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+    Back to LifeLink
+  </a>
+
+  <div class="card">
+
+    <!-- ── LifeLink brand ─────────────────────── -->
+    <div class="brand">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 2C12 2 4 10.5 4 15a8 8 0 0 0 16 0C20 10.5 12 2 12 2Z" fill="#C0392B"/>
+      </svg>
+      <span class="brand-name">LifeLink</span>
+    </div>
+
+    <!-- ── Shared error banner ────────────────── -->
+    <div class="banner err-banner hidden" id="err" role="alert">
+      <span class="err-icon" aria-hidden="true">!</span>
+      <span id="err-text"></span>
+    </div>
+    <!-- ── Shared success banner ──────────────── -->
+    <div class="banner ok-banner hidden" id="ok" role="status">
+      <span class="ok-icon" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </span>
+      <span id="ok-text"></span>
+    </div>
+
+    <!-- ════════════════════════════════════
+         LOGIN
+    ════════════════════════════════════ -->
+    <form class="form" id="f-login" novalidate>
+
+      <div class="fh">
+        <h1 class="fh-title">Welcome back</h1>
+        <p class="fh-sub">Login to continue with LifeLink.</p>
+      </div>
+
+      <!-- Mobile Number -->
+      <div class="field">
+        <label class="label" for="l-phone">Mobile Number</label>
+        <div class="phone-shell">
+          <span class="cc">+91</span>
+          <input type="tel" id="l-phone" class="inp"
+                 placeholder="98765 43210"
+                 maxlength="10" autocomplete="tel" inputmode="numeric">
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="field">
+        <div class="label-row">
+          <label class="label" for="l-pw">Password</label>
+          <button type="button" class="link-sm" id="go-forgot">Forgot Password?</button>
+        </div>
+        <div class="pw-shell">
+          <input type="password" id="l-pw" class="inp"
+                 placeholder="Enter your password"
+                 autocomplete="current-password">
+          <button type="button" class="eye-btn" data-t="l-pw" aria-label="Show password">
+            <svg class="eo" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <svg class="ec" style="display:none" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+              <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn" id="btn-login">Login</button>
+
+      <div class="or">or</div>
+      <div class="switch">
+        Don't have an account?&nbsp;
+        <button type="button" class="switch-btn" id="go-signup">Sign Up</button>
+      </div>
+    </form>
+
+    <!-- ════════════════════════════════════
+         SIGN UP
+    ════════════════════════════════════ -->
+    <form class="form hidden" id="f-signup" novalidate>
+
+      <div class="fh">
+        <h1 class="fh-title">Create your LifeLink account</h1>
+        <p class="fh-sub">Create one account to access LifeLink.</p>
+      </div>
+
+      <!-- Mobile Number -->
+      <div class="field">
+        <label class="label" for="r-phone">Mobile Number</label>
+        <div class="phone-shell">
+          <span class="cc">+91</span>
+          <input type="tel" id="r-phone" class="inp"
+                 placeholder="98765 43210"
+                 maxlength="10" autocomplete="tel" inputmode="numeric">
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="field">
+        <label class="label" for="r-pw">Password</label>
+        <div class="pw-shell">
+          <input type="password" id="r-pw" class="inp"
+                 placeholder="Create a password"
+                 autocomplete="new-password">
+          <button type="button" class="eye-btn" data-t="r-pw" aria-label="Show password">
+            <svg class="eo" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <svg class="ec" style="display:none" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+              <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+          </button>
+        </div>
+        <span class="hint">At least 8 characters</span>
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="field">
+        <label class="label" for="r-confirm">Confirm Password</label>
+        <div class="pw-shell">
+          <input type="password" id="r-confirm" class="inp"
+                 placeholder="Confirm your password"
+                 autocomplete="new-password">
+          <button type="button" class="eye-btn" data-t="r-confirm" aria-label="Show password">
+            <svg class="eo" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <svg class="ec" style="display:none" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+              <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn" id="btn-signup">Create Account</button>
+
+      <div class="or">or</div>
+      <div class="switch">
+        Already have an account?&nbsp;
+        <button type="button" class="switch-btn" id="go-login">Login</button>
+      </div>
+    </form>
+
+    <!-- ════════════════════════════════════
+         FORGOT PASSWORD
+    ════════════════════════════════════ -->
+    <form class="form hidden" id="f-forgot" novalidate>
+
+      <div class="fh">
+        <h1 class="fh-title">Reset your password</h1>
+        <p class="fh-sub">Enter your mobile number to continue.</p>
+      </div>
+
+      <div class="field">
+        <label class="label" for="fp-phone">Mobile Number</label>
+        <div class="phone-shell">
+          <span class="cc">+91</span>
+          <input type="tel" id="fp-phone" class="inp"
+                 placeholder="98765 43210"
+                 maxlength="10" autocomplete="tel" inputmode="numeric">
+        </div>
+      </div>
+
+      <button type="submit" class="btn" id="btn-forgot">Continue</button>
+
+      <div class="or">or</div>
+      <div class="switch">
+        <button type="button" class="switch-btn" id="go-back">← Back to Login</button>
+      </div>
+    </form>
+
+  </div><!-- /.card -->
+
+  <div class="foot">&copy; 2026 LifeLink &nbsp;·&nbsp; Donate Blood. Save Lives.</div>
+
+</div><!-- /.page -->
+
+<!-- ── Scripts ─────────────────────────────── -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabaseClient.js"></script>
+<script src="auth.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  /* ── Intent ─────────────────────────────── */
+  const intent = new URLSearchParams(location.search).get('intent'); // 'patient'|'donor'|null
+
+  function redirect() {
+    location.replace(
+      intent === 'patient' ? 'patient.html'
+      : intent === 'donor' ? 'donor.html'
+      : 'index.html'
+    );
+  }
+
+  /* Skip auth page if already logged in */
+  try { const s = getStoredSession(); if (s?.user) redirect(); } catch (_) {}
+
+  /* ── DOM ─────────────────────────────────── */
+  const fLogin  = document.getElementById('f-login');
+  const fSignup = document.getElementById('f-signup');
+  const fForgot = document.getElementById('f-forgot');
+
+  const errEl   = document.getElementById('err');
+  const errTxt  = document.getElementById('err-text');
+  const okEl    = document.getElementById('ok');
+  const okTxt   = document.getElementById('ok-text');
+
+  /* ── Banners ─────────────────────────────── */
+  function showErr(msg) {
+    okEl.classList.add('hidden');
+    errTxt.textContent = msg;
+    errEl.classList.add('hidden');
+    errEl.offsetHeight;          // force reflow → re-animate
+    errEl.classList.remove('hidden');
+  }
+  function showOk(msg) {
+    errEl.classList.add('hidden');
+    okTxt.textContent = msg;
+    okEl.classList.add('hidden');
+    okEl.offsetHeight;
+    okEl.classList.remove('hidden');
+  }
+  function clearAll() {
+    errEl.classList.add('hidden');
+    okEl.classList.add('hidden');
+    errTxt.textContent = '';
+    okTxt.textContent = '';
+  }
+
+  /* ── Form switching ──────────────────────── */
+  function show(id) {
+    fLogin.classList.add('hidden');
+    fSignup.classList.add('hidden');
+    fForgot.classList.add('hidden');
+    document.getElementById(id).classList.remove('hidden');
+    clearAll();
+  }
+
+  document.getElementById('go-signup').onclick = () => show('f-signup');
+  document.getElementById('go-login').onclick  = () => show('f-login');
+  document.getElementById('go-forgot').onclick  = () => show('f-forgot');
+  document.getElementById('go-back').onclick    = () => show('f-login');
+
+  /* ── Eye toggles ─────────────────────────── */
+  document.querySelectorAll('.eye-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const inp = document.getElementById(btn.dataset.t);
+      if (!inp) return;
+      const eo = btn.querySelector('.eo');
+      const ec = btn.querySelector('.ec');
+      if (inp.type === 'password') {
+        inp.type = 'text';
+        eo && (eo.style.display = 'none');
+        ec && (ec.style.display = 'block');
+        btn.setAttribute('aria-label', 'Hide password');
+      } else {
+        inp.type = 'password';
+        eo && (eo.style.display = 'block');
+        ec && (ec.style.display = 'none');
+        btn.setAttribute('aria-label', 'Show password');
+      }
+    });
+  });
+
+  /* ── Button helpers ──────────────────────── */
+  function busy(btn, label) {
+    btn.classList.add('busy');
+    btn.innerHTML = `<span class="spin"></span>${label}`;
+  }
+  function idle(btn, label) {
+    btn.classList.remove('busy');
+    btn.textContent = label;
+  }
+
+  const dig = v => v.replace(/\D/g, '');
+
+  /* ── LOGIN ───────────────────────────────── */
+  fLogin.addEventListener('submit', async e => {
+    e.preventDefault();
+    clearAll();
+    const btn  = document.getElementById('btn-login');
+    const ph   = dig(document.getElementById('l-phone').value);
+    const pw   = document.getElementById('l-pw').value;
+
+    if (ph.length < 10)  { showErr(AUTH_ERRORS.INVALID_PHONE);  return; }
+    if (pw.length < 8)   { showErr(AUTH_ERRORS.PASSWORD_SHORT); return; }
+
+    busy(btn, 'Logging in...');
+    try {
+      await loginUser({ phoneDigits: ph, password: pw });
+      redirect();
+    } catch (err) {
+      idle(btn, 'Login');
+      showErr(err.message || AUTH_ERRORS.WRONG_CREDENTIALS);
+    }
+  });
+
+  /* ── SIGN UP ─────────────────────────────── */
+  fSignup.addEventListener('submit', async e => {
+    e.preventDefault();
+    clearAll();
+    const btn     = document.getElementById('btn-signup');
+    const ph      = dig(document.getElementById('r-phone').value);
+    const pw      = document.getElementById('r-pw').value;
+    const confirm = document.getElementById('r-confirm').value;
+
+    if (ph.length < 10)     { showErr(AUTH_ERRORS.INVALID_PHONE);     return; }
+    if (pw.length < 8)      { showErr(AUTH_ERRORS.PASSWORD_SHORT);    return; }
+    if (pw !== confirm)     { showErr(AUTH_ERRORS.PASSWORD_MISMATCH); return; }
+
+    busy(btn, 'Creating account...');
+    try {
+      await registerUser({ phoneDigits: ph, password: pw });
+      redirect();
+    } catch (err) {
+      idle(btn, 'Create Account');
+      showErr(err.message || AUTH_ERRORS.CREATE_FAILED);
+    }
+  });
+
+  /* ── FORGOT PASSWORD ─────────────────────── */
+  fForgot.addEventListener('submit', async e => {
+    e.preventDefault();
+    clearAll();
+    const btn = document.getElementById('btn-forgot');
+    const ph  = dig(document.getElementById('fp-phone').value);
+
+    if (ph.length < 10) { showErr(AUTH_ERRORS.INVALID_PHONE); return; }
+
+    busy(btn, 'Sending...');
+    try {
+      await resetPassword(ph);
+      idle(btn, 'Continue');
+      showOk('Password reset instructions sent. Please check your messages.');
+    } catch (err) {
+      idle(btn, 'Continue');
+      showErr(err.message || AUTH_ERRORS.NETWORK_ERROR);
+    }
+  });
+
+})();
+</script>
+</body>
+</html>

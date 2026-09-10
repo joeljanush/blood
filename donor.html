@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="LifeLink — Register as a blood donor. Save lives in your community.">
+  <title>Donor — LifeLink</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="donor.css">
+</head>
+<body>
+
+  <!-- Header (onboarding only) -->
+  <header class="header header--scrolled" id="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo" id="logo">
+        <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 2C12 2 4 10.5 4 15a8 8 0 0 0 16 0C20 10.5 12 2 12 2Z" fill="#C0392B"/>
+        </svg>
+        <span>LifeLink</span>
+      </a>
+      <a href="index.html" class="nav-link" id="header-back">Back</a>
+    </div>
+  </header>
+
+  <!-- ============================== -->
+  <!--       ONBOARDING SCREENS       -->
+  <!-- ============================== -->
+
+  <!-- Screen 2: Basic Details (Initial Onboarding Screen) -->
+  <section class="screen active" id="screen-details">
+    <div class="screen-card">
+      <div class="screen-header">
+        <span class="screen-icon">📝</span>
+        <h1 class="screen-title">Tell us about yourself</h1>
+        <p class="screen-sub">Complete your donor details to start saving lives.</p>
+      </div>
+      <div class="screen-body">
+        <div class="field">
+          <label class="field-label" for="detail-name">Name</label>
+          <input type="text" id="detail-name" class="input" placeholder="Your full name" autocomplete="name">
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label class="field-label" for="detail-age">Age</label>
+            <input type="number" id="detail-age" class="input" placeholder="25" min="18" max="65" inputmode="numeric">
+          </div>
+          <div class="field">
+            <label class="field-label">Gender</label>
+            <div class="toggle-group" id="gender-group">
+              <button type="button" class="toggle-btn" data-val="Male">Male</button>
+              <button type="button" class="toggle-btn" data-val="Female">Female</button>
+              <button type="button" class="toggle-btn" data-val="Other">Other</button>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label" for="detail-area">Area / City</label>
+          <input type="text" id="detail-area" class="input" placeholder="e.g. Madurai" autocomplete="address-level2">
+        </div>
+        <div class="field">
+          <label class="field-label" for="detail-lastdonation">Last Donation Date</label>
+          <input type="date" id="detail-lastdonation" class="input">
+        </div>
+        <button class="btn-primary" id="btn-details">Continue</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screen 3: OTP Verification -->
+  <section class="screen" id="screen-otp">
+    <div class="screen-card">
+      <div class="screen-header">
+        <span class="screen-icon">🔐</span>
+        <h1 class="screen-title">Verify your number</h1>
+        <p class="screen-sub">Enter the 6-digit OTP sent to your phone.</p>
+      </div>
+      <div class="screen-body">
+        <div class="otp-row" id="otp-row">
+          <input type="text" class="otp-cell" maxlength="1" inputmode="numeric" aria-label="Digit 1">
+          <input type="text" class="otp-cell" maxlength="1" inputmode="numeric" aria-label="Digit 2">
+          <input type="text" class="otp-cell" maxlength="1" inputmode="numeric" aria-label="Digit 3">
+          <input type="text" class="otp-cell" maxlength="1" inputmode="numeric" aria-label="Digit 4">
+          <input type="text" class="otp-cell" maxlength="1" inputmode="numeric" aria-label="Digit 5">
+          <input type="text" class="otp-cell" maxlength="1" inputmode="numeric" aria-label="Digit 6">
+        </div>
+        <button class="btn-primary" id="btn-verify">Verify</button>
+        <button class="btn-text" id="btn-resend">Resend OTP</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screen 4: Blood Group -->
+  <section class="screen" id="screen-bloodgroup">
+    <div class="screen-card">
+      <div class="screen-header">
+        <span class="screen-icon">🅱️</span>
+        <h1 class="screen-title">What is your blood group?</h1>
+      </div>
+      <div class="screen-body">
+        <div class="bg-grid" id="bg-grid">
+          <button type="button" class="bg-tile" data-bg="A+">A+</button>
+          <button type="button" class="bg-tile" data-bg="A−">A−</button>
+          <button type="button" class="bg-tile" data-bg="B+">B+</button>
+          <button type="button" class="bg-tile" data-bg="B−">B−</button>
+          <button type="button" class="bg-tile" data-bg="AB+">AB+</button>
+          <button type="button" class="bg-tile" data-bg="AB−">AB−</button>
+          <button type="button" class="bg-tile" data-bg="O+">O+</button>
+          <button type="button" class="bg-tile" data-bg="O−">O−</button>
+        </div>
+        <button class="btn-primary" id="btn-bloodgroup">Continue</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screen 5: Availability -->
+  <section class="screen" id="screen-availability">
+    <div class="screen-card">
+      <div class="screen-header">
+        <span class="screen-icon">📡</span>
+        <h1 class="screen-title">Are you available to donate?</h1>
+      </div>
+      <div class="screen-body screen-body--center">
+        <button class="avail-toggle available" id="avail-toggle">
+          <span class="avail-dot"></span>
+          <span class="avail-label" id="avail-label">AVAILABLE</span>
+        </button>
+        <p class="screen-hint">Turn this on when you're ready to receive blood requests.</p>
+        <button class="btn-primary" id="btn-save-avail">Save</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== -->
+  <!--         MAIN APP SCREENS       -->
+  <!-- ============================== -->
+
+  <!-- Screen 6: Donor Home -->
+  <section class="screen" id="screen-home">
+    <div class="app-top">
+      <p class="greeting">Hi, <span id="home-name">Arun</span> 👋</p>
+    </div>
+    <div class="app-section">
+      <h2 class="app-label">Your Status</h2>
+      <div class="status-row">
+        <span class="status-badge available" id="home-status-badge">
+          <span class="status-dot"></span>
+          Available
+        </span>
+        <button class="btn-small" id="btn-change-status">Change</button>
+      </div>
+    </div>
+    <div class="app-section">
+      <h2 class="app-label">Your Blood Group</h2>
+      <span class="home-bg" id="home-bg">B+</span>
+    </div>
+    <div class="app-section">
+      <h2 class="app-label">Emergency Requests</h2>
+      <div id="home-requests">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Screen 7: Emergency Request -->
+  <section class="screen" id="screen-request">
+    <div class="screen-card">
+      <div class="screen-header screen-header--emergency">
+        <span class="screen-icon">🚨</span>
+        <h1 class="screen-title">Emergency Blood Request</h1>
+      </div>
+      <div class="screen-body">
+        <div class="req-details">
+          <div class="req-row">
+            <span class="req-label">Blood Group</span>
+            <span class="req-value req-value--bg" id="req-bg">B+</span>
+          </div>
+          <div class="req-row">
+            <span class="req-label">Units Needed</span>
+            <span class="req-value" id="req-units">2 Units</span>
+          </div>
+          <div class="req-row">
+            <span class="req-label">Hospital</span>
+            <span class="req-value" id="req-hospital">Government Rajaji Hospital</span>
+          </div>
+          <div class="req-row">
+            <span class="req-label">Distance</span>
+            <span class="req-value" id="req-distance">2.1 km away</span>
+          </div>
+          <div class="req-row">
+            <span class="req-label">Urgency</span>
+            <span class="req-value req-value--urgent" id="req-urgency">Emergency</span>
+          </div>
+        </div>
+        <div class="req-actions">
+          <button class="btn-primary btn-primary--lg" id="btn-accept">🩸 I Can Donate</button>
+          <button class="btn-outline" id="btn-decline">Not Available</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screen 8: Declined -->
+  <section class="screen" id="screen-declined">
+    <div class="screen-card">
+      <div class="screen-body screen-body--center">
+        <span class="result-icon">🚫</span>
+        <h1 class="screen-title">Request Declined</h1>
+        <p class="screen-sub">You won't receive further notifications for this request.</p>
+        <button class="btn-primary" id="btn-declined-home">Back to Home</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screen 9: Accepted / Thank You -->
+  <section class="screen" id="screen-accepted">
+    <div class="screen-card">
+      <div class="screen-body screen-body--center">
+        <span class="result-icon">❤️</span>
+        <h1 class="screen-title">Thank You!</h1>
+        <p class="screen-sub">Your response has been sent.</p>
+        <div class="accepted-info">
+          <span class="accepted-hospital" id="accepted-hospital">Government Rajaji Hospital</span>
+          <span class="accepted-detail">Blood Bank</span>
+          <span class="accepted-detail" id="accepted-bg-units">B+ | 2 Units</span>
+        </div>
+        <button class="btn-primary" id="btn-view-hospital">View Hospital Details</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screen 10: Hospital Details -->
+  <section class="screen" id="screen-hospital">
+    <div class="screen-card">
+      <div class="screen-header">
+        <span class="screen-icon">🏥</span>
+        <h1 class="screen-title">Donation Location</h1>
+      </div>
+      <div class="screen-body">
+        <div class="hosp-info">
+          <h2 class="hosp-name" id="hosp-name">Government Rajaji Hospital</h2>
+          <p class="hosp-city" id="hosp-city">Madurai</p>
+          <div class="hosp-divider"></div>
+          <p class="hosp-dept">Blood Bank</p>
+          <p class="hosp-need"><span id="hosp-bg">B+</span> Blood Required</p>
+          <p class="hosp-units"><span id="hosp-units">2</span> Units</p>
+        </div>
+        <button class="btn-primary btn-primary--lg" id="btn-going">I'm Going</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screen 11: Medical Screening -->
+  <section class="screen" id="screen-screening">
+    <div class="screen-card">
+      <div class="screen-header">
+        <span class="screen-icon">🔬</span>
+        <h1 class="screen-title">Medical Screening</h1>
+        <p class="screen-sub">Please complete your screening with the blood-bank staff.</p>
+      </div>
+      <div class="screen-body screen-body--center">
+        <div class="screening-status" id="screening-status">
+          <span class="screening-dot pending"></span>
+          <span class="screening-label" id="screening-label">Screening Pending</span>
+        </div>
+        <p class="screen-hint" id="screening-hint">Waiting for the blood bank to update your screening status.</p>
+        <button class="btn-primary hidden" id="btn-screening-next">Continue to Donation</button>
+        <!-- Demo button: simulates hospital staff action -->
+        <button class="btn-text" id="btn-sim-screening">Simulate: Approve Screening</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screen 12: Donation Confirmed -->
+  <section class="screen" id="screen-done">
+    <div class="screen-card">
+      <div class="screen-body screen-body--center">
+        <span class="result-icon result-icon--lg">🩸</span>
+        <h1 class="screen-title">Donation Completed</h1>
+        <p class="screen-sub">Thank you for helping someone in need. ❤️</p>
+        <div class="done-summary">
+          <div class="done-row">
+            <span>Blood Group</span>
+            <strong id="done-bg">B+</strong>
+          </div>
+          <div class="done-row">
+            <span>Units</span>
+            <strong id="done-units">2</strong>
+          </div>
+          <div class="done-row">
+            <span>Hospital</span>
+            <strong id="done-hospital">Government Rajaji Hospital</strong>
+          </div>
+          <div class="done-row">
+            <span>Date</span>
+            <strong id="done-date">05 Sep 2026</strong>
+          </div>
+        </div>
+        <button class="btn-primary" id="btn-done-home">Back to Home</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screen 13: Donation History -->
+  <section class="screen" id="screen-history">
+    <div class="app-top">
+      <h1 class="app-page-title">My Donations</h1>
+    </div>
+    <div id="history-list" class="history-list">
+      <!-- Filled by JS -->
+    </div>
+    <div class="empty-state hidden" id="history-empty">
+      <span class="empty-icon">🩸</span>
+      <p>No donations yet.</p>
+    </div>
+  </section>
+
+  <!-- Screen 14: Profile -->
+  <section class="screen" id="screen-profile">
+    <div class="app-top">
+      <h1 class="app-page-title">Profile</h1>
+    </div>
+    <div class="profile-card">
+      <div class="profile-row">
+        <span class="profile-label">Name</span>
+        <span class="profile-value" id="prof-name">—</span>
+      </div>
+      <div class="profile-row">
+        <span class="profile-label">Blood Group</span>
+        <span class="profile-value profile-value--bg" id="prof-bg">—</span>
+      </div>
+      <div class="profile-row">
+        <span class="profile-label">Age</span>
+        <span class="profile-value" id="prof-age">—</span>
+      </div>
+      <div class="profile-row">
+        <span class="profile-label">Gender</span>
+        <span class="profile-value" id="prof-gender">—</span>
+      </div>
+      <div class="profile-row">
+        <span class="profile-label">Area</span>
+        <span class="profile-value" id="prof-area">—</span>
+      </div>
+      <div class="profile-row">
+        <span class="profile-label">Last Donation</span>
+        <span class="profile-value" id="prof-last">—</span>
+      </div>
+      <div class="profile-row">
+        <span class="profile-label">Total Donations</span>
+        <span class="profile-value" id="prof-total">0</span>
+      </div>
+    </div>
+    <button class="btn-outline btn-outline--full" id="btn-edit-profile">Edit Profile</button>
+    <button class="btn-outline btn-outline--full" id="btn-change-avail">Change Availability</button>
+    <button class="btn-outline btn-outline--full" id="btn-donor-logout" style="color:var(--red);border-color:var(--red);margin-top:12px;">Logout</button>
+  </section>
+
+  <!-- Requests tab (same as home requests but full-screen) -->
+  <section class="screen" id="screen-requests-tab">
+    <div class="app-top">
+      <h1 class="app-page-title">Requests</h1>
+    </div>
+    <div id="requests-tab-list">
+      <!-- Filled by JS -->
+    </div>
+    <div class="empty-state hidden" id="requests-empty">
+      <span class="empty-icon">🚨</span>
+      <p>No emergency requests right now.</p>
+    </div>
+  </section>
+
+  <!-- ============================== -->
+  <!--        BOTTOM NAVIGATION       -->
+  <!-- ============================== -->
+  <nav class="bottom-nav hidden" id="bottom-nav">
+    <button class="bnav-item active" data-tab="home" id="bnav-home">
+      <span class="bnav-icon">🏠</span>
+      <span class="bnav-label">Home</span>
+    </button>
+    <button class="bnav-item" data-tab="requests-tab" id="bnav-requests">
+      <span class="bnav-icon">🚨</span>
+      <span class="bnav-label">Requests</span>
+      <span class="bnav-badge hidden" id="bnav-req-badge">1</span>
+    </button>
+    <button class="bnav-item" data-tab="history" id="bnav-history">
+      <span class="bnav-icon">🩸</span>
+      <span class="bnav-label">History</span>
+    </button>
+    <button class="bnav-item" data-tab="profile" id="bnav-profile">
+      <span class="bnav-icon">👤</span>
+      <span class="bnav-label">Profile</span>
+    </button>
+  </nav>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabaseClient.js"></script>
+  <script src="auth.js"></script>
+  <script src="authModal.js"></script>
+  <script src="donor.js"></script>
+</body>
+</html>

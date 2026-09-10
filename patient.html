@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="LifeLink — Request blood for a patient. Fast, simple, and trusted.">
+  <title>Request Blood — LifeLink</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="patient.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header header--scrolled" id="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo" id="logo">
+        <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 2C12 2 4 10.5 4 15a8 8 0 0 0 16 0C20 10.5 12 2 12 2Z" fill="#C0392B"/>
+        </svg>
+        <span>LifeLink</span>
+      </a>
+      <nav class="nav" id="nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="index.html#about" class="nav-link">About</a>
+        <a href="#" class="nav-link nav-link--login" id="nav-login-btn">Login</a>
+        <button type="button" class="nav-link hidden" id="nav-logout-btn" style="background:none;border:none;cursor:pointer;">Logout</button>
+      </nav>
+      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="patient-main">
+
+    <!-- Progress bar -->
+    <div class="progress-bar" id="progress-bar">
+      <div class="progress-bar__track">
+        <div class="progress-bar__fill" id="progress-fill"></div>
+      </div>
+      <div class="progress-bar__steps">
+        <span class="progress-step active" data-step="1">Details</span>
+        <span class="progress-step" data-step="2">Request</span>
+        <span class="progress-step" data-step="3">Donors</span>
+        <span class="progress-step" data-step="4">Status</span>
+      </div>
+    </div>
+
+    <!-- Step 1: Patient Details -->
+    <section class="form-step active" id="step-1">
+      <div class="form-card">
+        <div class="form-header">
+          <span class="form-icon">🏥</span>
+          <h1 class="form-title">Patient Details</h1>
+          <p class="form-subtitle">Tell us who needs blood.</p>
+        </div>
+        <div class="form-body">
+          <div class="input-group">
+            <label class="input-label" for="patient-name">Patient Name</label>
+            <input type="text" id="patient-name" class="input" placeholder="Full name of the patient" autocomplete="name">
+          </div>
+          <div class="input-group">
+            <label class="input-label" for="attendant-name">Attendant Name</label>
+            <input type="text" id="attendant-name" class="input" placeholder="Your name" autocomplete="name">
+          </div>
+          <div class="input-group">
+            <label class="input-label" for="phone-contact">Attendant Phone Number</label>
+            <div class="input-phone">
+              <span class="input-prefix">+91</span>
+              <input type="tel" id="phone-contact" class="input" placeholder="9876543210" maxlength="10" autocomplete="tel">
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="input-label" for="patient-age">Patient Age</label>
+            <input type="number" id="patient-age" class="input" placeholder="e.g. 35" min="0" max="120" inputmode="numeric">
+          </div>
+          <div class="input-group">
+            <label class="input-label">Gender</label>
+            <div class="toggle-group" id="patient-gender-group" style="display:flex;gap:10px;">
+              <button type="button" class="btn btn--donate btn--sm toggle-gender-btn" data-val="Male">Male</button>
+              <button type="button" class="btn btn--donate btn--sm toggle-gender-btn" data-val="Female">Female</button>
+              <button type="button" class="btn btn--donate btn--sm toggle-gender-btn" data-val="Other">Other</button>
+            </div>
+          </div>
+          <button class="btn btn--need btn--full" id="btn-details-continue" style="margin-top:16px;">Continue to Blood Request</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 2: Patient Details -->
+    <section class="form-step" id="step-2">
+      <div class="form-card">
+        <div class="form-header">
+          <span class="form-icon">🏥</span>
+          <h1 class="form-title">Patient Details</h1>
+          <p class="form-subtitle">Tell us who needs blood.</p>
+        </div>
+        <div class="form-body">
+          <div class="input-group">
+            <label class="input-label" for="patient-name">Patient Name</label>
+            <input type="text" id="patient-name" class="input" placeholder="Full name of the patient" autocomplete="name">
+          </div>
+          <div class="input-group">
+            <label class="input-label" for="attendant-name">Attendant Name</label>
+            <input type="text" id="attendant-name" class="input" placeholder="Your name" autocomplete="name">
+          </div>
+          <div class="input-group">
+            <label class="input-label" for="phone-contact">Phone Number</label>
+            <div class="input-phone">
+              <span class="input-prefix">+91</span>
+              <input type="tel" id="phone-contact" class="input" placeholder="9876543210" maxlength="10" autocomplete="tel">
+            </div>
+          </div>
+          <button class="btn btn--need btn--full" id="btn-details-continue">Continue</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 3: Blood Request -->
+    <section class="form-step" id="step-3">
+      <div class="form-card">
+        <div class="form-header">
+          <span class="form-icon">🩸</span>
+          <h1 class="form-title">Blood Request</h1>
+          <p class="form-subtitle">Select what you need.</p>
+        </div>
+        <div class="form-body">
+
+          <!-- Hospital search -->
+          <div class="input-group">
+            <label class="input-label" for="hospital-search">Select Hospital</label>
+            <div class="search-dropdown" id="hospital-dropdown">
+              <input type="text" id="hospital-search" class="input input--search" placeholder="Search hospital..." autocomplete="off">
+              <ul class="dropdown-list" id="hospital-list"></ul>
+            </div>
+          </div>
+
+          <!-- Blood group -->
+          <div class="input-group">
+            <label class="input-label">Blood Group</label>
+            <div class="blood-group-grid" id="blood-group-grid">
+              <button type="button" class="bg-btn" data-bg="A+">A+</button>
+              <button type="button" class="bg-btn" data-bg="A−">A−</button>
+              <button type="button" class="bg-btn" data-bg="B+">B+</button>
+              <button type="button" class="bg-btn" data-bg="B−">B−</button>
+              <button type="button" class="bg-btn" data-bg="AB+">AB+</button>
+              <button type="button" class="bg-btn" data-bg="AB−">AB−</button>
+              <button type="button" class="bg-btn" data-bg="O+">O+</button>
+              <button type="button" class="bg-btn" data-bg="O−">O−</button>
+            </div>
+          </div>
+
+          <!-- Units -->
+          <div class="input-group">
+            <label class="input-label">Units Required</label>
+            <div class="units-selector">
+              <button type="button" class="units-btn" id="units-minus" aria-label="Decrease units">−</button>
+              <span class="units-value" id="units-value">1</span>
+              <button type="button" class="units-btn" id="units-plus" aria-label="Increase units">+</button>
+            </div>
+          </div>
+
+          <!-- Urgency -->
+          <div class="input-group">
+            <label class="input-label">Urgency</label>
+            <div class="urgency-group" id="urgency-group">
+              <button type="button" class="urgency-btn urgency--emergency" data-urgency="emergency">
+                <span class="urgency-dot"></span>
+                Emergency
+              </button>
+              <button type="button" class="urgency-btn urgency--urgent" data-urgency="urgent">
+                <span class="urgency-dot"></span>
+                Urgent
+              </button>
+              <button type="button" class="urgency-btn urgency--normal" data-urgency="normal">
+                <span class="urgency-dot"></span>
+                Normal
+              </button>
+            </div>
+          </div>
+
+          <button class="btn btn--need btn--full" id="btn-find-donors">Find Nearby Donors</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 4: Nearby Donors -->
+    <section class="form-step" id="step-4">
+      <div class="form-card">
+        <div class="form-header">
+          <span class="form-icon">👥</span>
+          <h1 class="form-title">Nearby Donors</h1>
+          <p class="form-subtitle" id="donors-subtitle">Potential donors near your selected hospital.</p>
+        </div>
+        <div class="form-body">
+          <div class="donor-list" id="donor-list">
+            <!-- Donors rendered by JS -->
+          </div>
+          <button class="btn btn--need btn--full" id="btn-send-request">Send Emergency Request</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 5: Request Status -->
+    <section class="form-step" id="step-5">
+      <div class="form-card">
+        <div class="form-header">
+          <span class="form-icon">✅</span>
+          <h1 class="form-title">Request Status</h1>
+          <p class="form-subtitle">We're working on your request.</p>
+        </div>
+        <div class="form-body">
+          <div class="status-tracker" id="status-tracker">
+            <div class="status-item done" id="status-sent">
+              <div class="status-icon">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="currentColor"/><path d="M6 10l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="status-text">
+                <span class="status-label">Request Sent</span>
+                <span class="status-time" id="status-sent-time"></span>
+              </div>
+            </div>
+            <div class="status-connector"></div>
+            <div class="status-item" id="status-notified">
+              <div class="status-icon">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="currentColor"/><circle cx="10" cy="10" r="3" fill="#fff"/></svg>
+              </div>
+              <div class="status-text">
+                <span class="status-label">Donors Notified</span>
+                <span class="status-time" id="status-notified-time"></span>
+              </div>
+            </div>
+            <div class="status-connector"></div>
+            <div class="status-item" id="status-accepted">
+              <div class="status-icon">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="currentColor"/><circle cx="10" cy="10" r="3" fill="#fff"/></svg>
+              </div>
+              <div class="status-text">
+                <span class="status-label">Donor Accepted</span>
+                <span class="status-time" id="status-accepted-time"></span>
+              </div>
+            </div>
+            <div class="status-connector"></div>
+            <div class="status-item" id="status-confirmed">
+              <div class="status-icon">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="currentColor"/><circle cx="10" cy="10" r="3" fill="#fff"/></svg>
+              </div>
+              <div class="status-text">
+                <span class="status-label">Donation Confirmed</span>
+                <span class="status-time" id="status-confirmed-time"></span>
+              </div>
+            </div>
+          </div>
+          <a href="index.html" class="btn btn--donate btn--full" id="btn-back-home">Back to Home</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabaseClient.js"></script>
+  <script src="auth.js"></script>
+  <script src="authModal.js"></script>
+  <script src="patient.js"></script>
+</body>
+</html>
