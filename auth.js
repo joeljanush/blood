@@ -3,7 +3,7 @@
 const AUTH_ERRORS = {
   WRONG_CREDENTIALS: 'Phone number or password is incorrect.',
   INVALID_PHONE: 'Please enter a valid mobile number.',
-  ALREADY_REGISTERED: 'This mobile number is already registered.',
+  ALREADY_REGISTERED: 'This mobile number is already registered. Please log in.',
   PASSWORD_SHORT: 'Password must contain at least 8 characters.',
   PASSWORD_MISMATCH: 'Passwords do not match.',
   CREATE_FAILED: 'Something went wrong. Please try again.',
