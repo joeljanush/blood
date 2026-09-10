@@ -25,7 +25,7 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 
-"// Session-aware routing — logged-in users go direct; others go to auth page with intent
+// Session-aware routing — logged-in users go direct; others go to auth page with intent
 async function route(e, intent, dest) {
   e.preventDefault();
   try {

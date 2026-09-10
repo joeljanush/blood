@@ -101,7 +101,7 @@ document.getElementById('patient-gender-group')?.addEventListener('click', (e) =
   patientGender = btn.dataset.val;
 });
 
-"// Page Initialization
+// Page Initialization
 document.addEventListener('DOMContentLoaded', async () => {
   let session = getStoredSession();
   const client = getSupabase();
